@@ -13,5 +13,10 @@ after_success:
   - docker build -t tomjohnburton/multi-nginx ./nginx
   - docker build -t tomjohnburton/multi-server ./server
   - docker build -t tomjohnburton/multi-worker ./worker
-  # login to docker CLI
-  - docker login
+  # login to docker CLI - echo pw over std in and parse it into the next command
+  # login with user name and retrieve password from stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push tomjohnburton/multi-client
+  - docker push tomjohnburton/multi-nginx
+  - docker push tomjohnburton/multi-server
+  - docker push tomjohnburton/multi-worker
